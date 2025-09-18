@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 2px solid darkslategray;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+}
+
+.form-field label {
+  font-size: 0.75rem;
+}
+
+.error-text {
+  font-size: 0.75rem;
+  color: darkred;
+}

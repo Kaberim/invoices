@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "name": "KLG test task",
+      "address": "Poland",
+      "phones": [
+        "123 456 789",
+        "789-456-123"
+      ],
+      "id": "968d"
+    }
+  ]
+}

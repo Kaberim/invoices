@@ -1,0 +1,12 @@
+@for (form of formService.data.controls; track form; let i = $index) {
+  <app-item [form]="form" [index]="i"/>
+} @empty {
+  <app-item/>
+}
+@if(formService.emptyError()){
+  <div class="error-block">
+    Please add items
+  </div>
+}
+<button (click)="formService.submitItems()">Submit</button><br>
+<button (click)="formService.addInvoice()">Add a new invoice</button>

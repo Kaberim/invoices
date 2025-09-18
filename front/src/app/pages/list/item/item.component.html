@@ -1,0 +1,24 @@
+@if(form(); as form) {
+  <form [formGroup]="form">
+    @for(field of fields; track field.name) {
+      @let id = "field.name + '_' + i";
+      <div class="form-field">
+        <label [for]="id">{{ field.label }}</label>
+        <input
+          [id]="id"
+          [type]="field.type"
+          [formControlName]="field.name"
+        />
+        @if(errors().get(field.name); as errorMessage) {
+          <div class="error-text">{{ errorMessage }}</div>
+        }
+      </div>
+    }
+    @let id = index();
+    @if(id !== null && id !== undefined) {
+      <button (click)="formService.removeInvoice(id)">Delete</button>
+    }
+  </form>
+} @else {
+  No items found.
+}

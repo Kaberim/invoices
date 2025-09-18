@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  font-family: "Inter", serif;
+}
+
+.error-block {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 2px solid darkred;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}

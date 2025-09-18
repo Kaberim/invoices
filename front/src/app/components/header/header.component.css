@@ -1,0 +1,15 @@
+header {
+  width: 100%;
+  background: darkslategray;
+  padding: 1rem;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
