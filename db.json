@@ -1,6 +1,5 @@
 {
-  "data": [
-    {
+  "data": {
       "name": "KLG test task",
       "address": "Poland",
       "phones": [
@@ -8,6 +7,6 @@
         "789-456-123"
       ],
       "id": "968d"
-    }
-  ]
+  }
+
 }

@@ -11,6 +11,7 @@ export class FormService {
   data = new FormArray<ReturnType<FormService['getInvoiceFormGroup']>>([]);
   propagateErrors = new Subject<void>();
   emptyError = signal<boolean>(false);
+  wasSubmitted = signal(false);
 
   constructor(private router: Router) {
   }
@@ -36,6 +37,7 @@ export class FormService {
       this.emptyError.set(true);
     } else if (this.data.controls.some(control => control.valid)) {
       this.router.navigate(['info']);
+      this.wasSubmitted.set(true);
     } else {
       this.propagateErrors.next();
     }

@@ -16,5 +16,6 @@ import { FormService } from '../../core/form.service';
 })
 export class ListComponent {
   constructor(public formService: FormService) {
+    this.formService.wasSubmitted.set(false);
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, input, OnInit, signal } from '@angular/core';
 import { FormService } from '../../../core/form.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { getFirstErrorMessage } from '../../../shared/error-messages';
@@ -16,6 +16,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemComponent implements OnInit {
+  @HostBinding('class')
+  hostClasses = 'block default';
+
   form = input<ReturnType<FormService['getInvoiceFormGroup']>>();
   index = input<number>();
   errors = signal<Map<string, string>>(new Map());
