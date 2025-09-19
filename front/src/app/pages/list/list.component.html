@@ -1,4 +1,4 @@
-@for (form of formService.data.controls; track form; let i = $index) {
+@for (form of formService.invoices.controls; track form; let i = $index) {
   <app-item [form]="form" [index]="i"/>
 } @empty {
   <app-item/>

@@ -9,7 +9,8 @@
           [type]="field.type"
           [formControlName]="field.name"
         />
-        @if(errors().get(field.name); as errorMessage) {
+        @let errorMessages = errors();
+        @if(errorMessages && errorMessages.get(field.name); as errorMessage) {
           <div class="error-text">{{ errorMessage }}</div>
         }
       </div>

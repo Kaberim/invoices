@@ -26,22 +26,22 @@ describe('FormService', () => {
   });
 
   it('should initialize data as empty FormArray', () => {
-    expect(service.data.length).toBe(0);
+    expect(service.invoices.length).toBe(0);
   });
 
   it('should add an invoice form to data', () => {
     service.addInvoice();
-    expect(service.data.length).toBe(1);
-    expect(service.data.at(0) instanceof FormGroup).toBeTrue();
+    expect(service.invoices.length).toBe(1);
+    expect(service.invoices.at(0) instanceof FormGroup).toBeTrue();
   });
 
   it('should remove invoice form at given index', () => {
     service.addInvoice();
     service.addInvoice();
-    expect(service.data.length).toBe(2);
+    expect(service.invoices.length).toBe(2);
 
     service.removeInvoice(0);
-    expect(service.data.length).toBe(1);
+    expect(service.invoices.length).toBe(1);
   });
 
   it('should validate invoice form correctly', () => {

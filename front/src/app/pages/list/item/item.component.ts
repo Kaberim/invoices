@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, HostBinding, input, OnInit, signal } from '@angular/core';
 import { FormService } from '../../../core/form.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { getFirstErrorMessage } from '../../../shared/error-messages';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { getMapOfErrors } from '../../../shared/utility/error-messages';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { InvoiceForm, invoiceFormFields } from '../../../shared/models/invoice-form';
 
 @Component({
   selector: 'app-item',
@@ -19,35 +20,16 @@ export class ItemComponent implements OnInit {
   @HostBinding('class')
   hostClasses = 'block default';
 
-  form = input<ReturnType<FormService['getInvoiceFormGroup']>>();
+  form = input<FormGroup<InvoiceForm>>();
   index = input<number>();
   errors = signal<Map<string, string>>(new Map());
-  fields = [
-    { name: 'name', label: 'Name', type: 'text' },
-    { name: 'count', label: 'Count', type: 'number' },
-    { name: 'price', label: 'Price', type: 'number' }
-  ];
+  fields = invoiceFormFields;
 
-  constructor(public formService: FormService, private destroyRef: DestroyRef) {
-  }
+  constructor(public formService: FormService, private destroyRef: DestroyRef) {}
 
   ngOnInit() {
-    this.formService.propagateErrors
+    this.formService.propagateErrors$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        const form = this.form();
-        if (!form) return;
-
-        const newMap = new Map<string, string>();
-
-        Object.entries(form.controls).forEach(([key, control]) => {
-          const message = getFirstErrorMessage(control);
-          if (message) {
-            newMap.set(key, message);
-          }
-        });
-
-        this.errors.set(newMap);
-      });
+      .subscribe(() => this.errors.set(getMapOfErrors(this.form())));
   }
 }

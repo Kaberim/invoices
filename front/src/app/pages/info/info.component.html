@@ -1,17 +1,22 @@
 <h2>Company Info</h2>
 <div class="block default">
-  @if(companyInfo$|async; as companyData){
+
+  @if (companyInfo$|async; as companyData) {
     <p><strong>Name:</strong> {{ companyData.name }}</p>
     <p><strong>Address:</strong> {{ companyData.address }}</p>
-    <p><strong>Phones:</strong> {{ companyData.phones.join(', ') }}</p>
+    <p><strong>Phones:</strong> {{ companyData.phones.join( ', ' ) }}</p>
   } @else {
-    Data couldn't be found.
+    @if (isLoading()) {
+      Loading...
+    } @else {
+      Data couldn't be found.
+    }
   }
 </div>
 
 <h2>Invoice Items</h2>
 @let items = validItems();
-@if(formService.wasSubmitted() && items.length > 0) {
+@if (formService.wasSubmitted() && items.length > 0) {
   <table>
     <thead>
     <tr>
@@ -21,11 +26,11 @@
     </tr>
     </thead>
     <tbody>
-      @for(item of items; track item) {
+      @for (item of items; track item) {
         <tr>
-          <td>{{ item.get('name')?.value }}</td>
-          <td>{{ item.get('count')?.value }}</td>
-          <td>{{ item.get('price')?.value }}</td>
+          <td>{{ item.get( 'name' )?.value }}</td>
+          <td>{{ item.get( 'count' )?.value }}</td>
+          <td>{{ item.get( 'price' )?.value }}</td>
         </tr>
       }
     </tbody>

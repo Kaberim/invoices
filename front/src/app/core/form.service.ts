@@ -1,45 +1,51 @@
 import { Injectable, signal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { InvoiceForm } from '../shared/models/invoice-form';
+import { createNumberControl, createTextControl } from '../shared/utility/form-fields';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormService {
 
-  data = new FormArray<ReturnType<FormService['getInvoiceFormGroup']>>([]);
-  propagateErrors = new Subject<void>();
+  invoices = new FormArray<FormGroup<InvoiceForm>>([]);
+  propagateErrors$ = new Subject<void>();
   emptyError = signal<boolean>(false);
-  wasSubmitted = signal(false);
+  wasSubmitted = signal<boolean>(false);
 
   constructor(private router: Router) {
   }
 
-  getInvoiceFormGroup() {
-    return new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
-      count: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(100), Validators.pattern("^[0-9]*$")]),
-      price: new FormControl(0, [Validators.required, Validators.min(1), Validators.max(1000000), Validators.pattern("^[0-9]*$")])
+  getInvoiceFormGroup(): FormGroup<InvoiceForm> {
+    return new FormGroup<NonNullable<InvoiceForm>>({
+      name: createTextControl('', 3, 30),
+      count: createNumberControl(0, 1, 100),
+      price: createNumberControl(0, 1, 1_000_000)
     });
   }
 
   addInvoice() {
-    this.data.push(this.getInvoiceFormGroup())
+    this.invoices.push(this.getInvoiceFormGroup())
   }
 
   removeInvoice(index: number) {
-    this.data.removeAt(index);
+    this.invoices.removeAt(index);
   }
 
   submitItems() {
-    if (this.data.controls.length === 0) {
+    if (this.invoices.length === 0) {
       this.emptyError.set(true);
-    } else if (this.data.controls.some(control => control.valid)) {
-      this.router.navigate(['info']);
-      this.wasSubmitted.set(true);
-    } else {
-      this.propagateErrors.next();
+      return;
     }
+
+    if (this.invoices.controls.some(control => control.valid)) {
+      this.wasSubmitted.set(true);
+      this.router.navigate(['info']);
+      return;
+    }
+
+    this.propagateErrors$.next();
   }
 }
